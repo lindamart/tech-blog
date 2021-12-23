@@ -1,4 +1,14 @@
 const router = require("express").Router();
+const User = require("../models/User");
+
+router.get("/", async (req, res)=>{
+    try{
+        await res.render("main")
+    } catch (err){
+        res.status(500).json(err)
+    }
+    
+})
 
 router.get("/signup", (req, res) => {
     if (req.session.loggedIn) {
@@ -13,12 +23,5 @@ router.get("/login", (req, res) => {
     res.render('login')
 });
 
-// do i put this into above code?
-res.render('homepage', {
-//    what do i pass here? logged in status? logged_in: req.session.logged_in 
-});
-catch (err) {
-    res.status(500).json(err);
-}
 
 module.exports = router;

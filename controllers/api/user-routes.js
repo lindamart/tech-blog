@@ -1,15 +1,19 @@
 const router = require("express").Router();
-const { User } = require("../../models/User");
+const User  = require("../../models/User");
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
     console.log("USER INFO FROM FRONTEND", req.body)
     // save user into db and save req.session so it knows when youre logged in **reference student mini project user routes!!
     // get dashboard (logged in homepage) to render
     try {
-        const userData = await User.create(req.body);
+        const userData = await User.create({
+            username: req.body.username,
+            password: req.body.password
+        });
 
         req.session.save(() => {
             req.session.user_id = userData.id;
+            req.session.username = userData.username;
             req.session.logged_in = true;
 
             res.status(200).json(userData);
@@ -41,6 +45,7 @@ router.post('/login', async (req, res) => {
 
         req.session.save(() => {
             req.session.user_id = userData.id;
+            req.session.username = userData.username;
             req.session.logged_in = true;
 
             res.json({ user: userData, message: 'You are now logged in!' });
