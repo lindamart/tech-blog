@@ -26,36 +26,6 @@ async function loginFormHandler(event) {
 
 document.querySelector('.login-form').addEventListener('submit', loginFormHandler);
 
-// reference signup.js to send data to backend (user-routes.js) from here
-const signupFormHandler = async (event) => {
-    event.preventDefault();
-
-    const name = document.querySelector('#name-signup').value.trim();
-    const email = document.querySelector('#email-signup').value.trim();
-    const password = document.querySelector('#password-signup').value.trim();
-
-    if (name && email && password) {
-        const response = await fetch('/api/users', {
-            method: 'POST',
-            body: JSON.stringify({ name, email, password }),
-            headers: { 'Content-Type': 'application/json' },
-        });
-
-        if (response.ok) {
-            document.location.replace('/profile');
-        } else {
-            alert(response.statusText);
-        }
-    }
-};
-
-document
-    .querySelector('.login-form')
-    .addEventListener('submit', loginFormHandler);
-
-document
-    .querySelector('.signup-form')
-    .addEventListener('submit', signupFormHandler);
 
 // once user login routes are working properly get them to render ONLY dashboard.handlebars (not main and dashboard)
 
