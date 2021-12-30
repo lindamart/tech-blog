@@ -25,14 +25,14 @@ router.get('/', withAuth, (req, res) => {
             },
             {
                 model: User,
-                attributes: ['username', 'github']
+                attributes: ['username']
             }
         ]
     })
         .then(dbPostData => {
             // serialize data before passing to template
             const posts = dbPostData.map(post => post.get({ plain: true }));
-            res.render('layouts/dashboard', { posts, loggedIn: true });
+            res.render('dashboard', { posts, loggedIn: true });
         })
         .catch(err => {
             console.log(err);
@@ -57,12 +57,12 @@ router.get('/edit/:id', withAuth, (req, res) => {
                 attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
                 include: {
                     model: User,
-                    attributes: ['username', 'github']
+                    attributes: ['username']
                 }
             },
             {
                 model: User,
-                attributes: ['username', 'github']
+                attributes: ['username']
             }
         ]
     })
@@ -104,12 +104,12 @@ router.get('/create/', withAuth, (req, res) => {
                 attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
                 include: {
                     model: User,
-                    attributes: ['username', 'github']
+                    attributes: ['username']
                 }
             },
             {
                 model: User,
-                attributes: ['username', 'github']
+                attributes: ['username']
             }
         ]
     })

@@ -27,8 +27,12 @@ router.get('/', (req, res) => {
             }
         ]
     })
+    // Post.findAll({
+    //     include: [User]
+    // })
         .then(dbPostData => {
             const posts = dbPostData.map(post => post.get({ plain: true }));
+            console.log("ALL POSTS FROM DBB", dbPostData)
             res.render('homepage', {
                 posts,
                 loggedIn: req.session.loggedIn
@@ -39,6 +43,8 @@ router.get('/', (req, res) => {
             res.status(500).json(err);
         });
 });
+
+
 
 router.get('/login', (req, res) => {
     if (req.session.loggedIn) {
@@ -104,3 +110,4 @@ router.get('/post/:id', (req, res) => {
             res.status(500).json(err);
         });
 });
+module.exports = router;

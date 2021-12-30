@@ -4,38 +4,41 @@ const sequelize = require('../../config/connection');
 const withAuth = require('../../utils/auth');
 
 // get all users
-router.get('/', (req, res) => {
-    console.log('======================');
-    Post.findAll({
-        attributes: [
-            'id',
-            'title',
-            'created_at',
-            'post_content'
-        ],
-        order: [['created_at', 'DESC']],
-        include: [
-            // Comment model here -- attached username to comment
-            {
-                model: Comment,
-                attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
-                include: {
-                    model: User,
-                    attributes: ['username', 'twitter', 'github']
-                }
-            },
-            {
-                model: User,
-                attributes: ['username', 'twitter', 'github']
-            },
-        ]
-    })
-        .then(dbPostData => res.json(dbPostData))
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
-        });
-});
+// router.get('/', (req, res) => {
+//     console.log('======================');
+//     Post.findAll({
+//         attributes: [
+//             'id',
+//             'title',
+//             'created_at',
+//             'post_content'
+//         ],
+//         order: [['created_at', 'DESC']],
+//         include: [
+//             // Comment model here -- attached username to comment
+//             {
+//                 model: Comment,
+//                 attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+//                 include: {
+//                     model: User,
+//                     attributes: ['username']
+//                 }
+//             },
+//             {
+//                 model: User,
+//                 attributes: ['username']
+//             },
+//         ]
+//     })
+//         .then(dbPostData => {
+//             res.json(dbPostData)
+//             console.log("ALL POSTS IN DB", dbPostData)
+//         } )
+//         .catch(err => {
+//             console.log(err);
+//             res.status(500).json(err);
+//         });
+// });
 
 router.get('/:id', (req, res) => {
     Post.findOne({
@@ -52,14 +55,14 @@ router.get('/:id', (req, res) => {
             // include the Comment model here:
             {
                 model: User,
-                attributes: ['username', 'twitter', 'github']
+                attributes: ['username']
             },
             {
                 model: Comment,
                 attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
                 include: {
                     model: User,
-                    attributes: ['username', 'twitter', 'github']
+                    attributes: ['username']
                 }
             }
         ]
@@ -78,6 +81,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', withAuth, (req, res) => {
+    console.log("NEW POST GOING TO DB ", req.body)
     Post.create({
         title: req.body.title,
         post_content: req.body.post_content,
