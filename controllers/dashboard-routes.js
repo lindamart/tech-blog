@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const sequelize = require('../config/connection');
-const { Post, User, Comment } = require('../models');
+const { Post, User, Comment } = require('../../models');
 const withAuth = require('../utils/auth');
 
 router.get('/', withAuth, (req, res) => {
@@ -21,19 +21,18 @@ router.get('/', withAuth, (req, res) => {
                 attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
                 include: {
                     model: User,
-                    attributes: ['username', 'twitter', 'github']
                 }
             },
             {
                 model: User,
-                attributes: ['username', 'twitter', 'github']
+                attributes: ['username', 'github']
             }
         ]
     })
         .then(dbPostData => {
             // serialize data before passing to template
             const posts = dbPostData.map(post => post.get({ plain: true }));
-            res.render('dashboard', { posts, loggedIn: true });
+            res.render('layouts/dashboard', { posts, loggedIn: true });
         })
         .catch(err => {
             console.log(err);
@@ -58,12 +57,12 @@ router.get('/edit/:id', withAuth, (req, res) => {
                 attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
                 include: {
                     model: User,
-                    attributes: ['username', 'twitter', 'github']
+                    attributes: ['username', 'github']
                 }
             },
             {
                 model: User,
-                attributes: ['username', 'twitter', 'github']
+                attributes: ['username', 'github']
             }
         ]
     })
@@ -105,12 +104,12 @@ router.get('/create/', withAuth, (req, res) => {
                 attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
                 include: {
                     model: User,
-                    attributes: ['username', 'twitter', 'github']
+                    attributes: ['username', 'github']
                 }
             },
             {
                 model: User,
-                attributes: ['username', 'twitter', 'github']
+                attributes: ['username', 'github']
             }
         ]
     })
@@ -128,17 +127,3 @@ router.get('/create/', withAuth, (req, res) => {
 
 module.exports = router;
 
-// const router = require("express").Router();
-// const withAuth = require("../utils/auth")
-
-// router.get("/", withAuth, async (req, res)=>{
-//     try{
-//         res.render("layouts/dashboard")
-
-//     } catch (err){
-//         res.redirect("login")
-//     }
-
-// })
-
-// module.exports = router;
