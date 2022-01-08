@@ -52,7 +52,7 @@ router.get('/login', (req, res) => {
         return;
     }
 
-    res.render('login');
+    res.render('login',{logInPage:true});
 });
 
 router.get('/signup', (req, res) => {
