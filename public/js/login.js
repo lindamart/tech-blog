@@ -25,10 +25,3 @@ async function loginFormHandler(event) {
 }
 
 document.querySelector('.login-form').addEventListener('submit', loginFormHandler);
-
-
-// once user login routes are working properly get them to render ONLY dashboard.handlebars (not main and dashboard)
-
-// once dashboard is wokring properly work on creating posts and sending to DB
-
-// after posts are sent to DB get posts to render
